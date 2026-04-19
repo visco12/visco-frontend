@@ -129,108 +129,31 @@ h1{ text-align:center; margin-bottom:30px; }
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 
 <script>
-// ✅ CORRECT SUPABASE INIT
-const supabaseClient = supabase.createClient(
-  "https://yacgfuyzwdcwevojffzd.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlhY2dmdXl6d2Rjd2V2b2pmZnpkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUyMjYyMTgsImV4cCI6MjA5MDgwMjIxOH0.JL-42qRx_Ow7gsaRsJoOENLY_Gpe7rA_jJTYyVF9zds"
-);
 
 // ✅ SINGLE LOGIN FUNCTION (FIXED)
 
-let currentMode = "password"; // password | email_otp | phone_otp
 
-// 🔥 SMART LOGIN
 async function login(e){
   e.preventDefault();
 
-  const input = document.getElementById("email").value.trim();
-  const pass = document.getElementById("password").value.trim();
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-  // DETECT TYPE
-  const isPhone = /^\d{10}$/.test(input);
-  const isEmail = input.includes("@");
+  const res = await fetch("https://visco.onrender.com/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ email, password })
+  });
 
-  try {
+  const data = await res.json();
 
-    // =========================
-    // 📱 PHONE OTP FLOW
-    // =========================
-    if(isPhone){
-      currentMode = "phone_otp";
-
-      // If no OTP entered → send OTP
-      if(pass.length === 0){
-        const { error } = await supabaseClient.auth.signInWithOtp({
-          phone: "+91" + input
-        });
-
-        if(error) return alert(error.message);
-
-        alert("OTP sent to phone");
-        return;
-      }
-
-      // VERIFY OTP
-      const { data, error } = await supabaseClient.auth.verifyOtp({
-        phone: "+91" + input,
-        token: pass,
-        type: "sms"
-      });
-
-      if(error) return alert(error.message);
-
-      localStorage.setItem("token", data.session.access_token);
-      window.location.href = "homepage.html";
-      return;
-    }
-
-    // =========================
-    // 📧 EMAIL OTP FLOW
-    // =========================
-    if(isEmail && pass.length === 0){
-      currentMode = "email_otp";
-
-      const { error } = await supabaseClient.auth.signInWithOtp({
-        email: input
-      });
-
-      if(error) return alert(error.message);
-
-      alert("OTP sent to email");
-      return;
-    }
-
-    // VERIFY EMAIL OTP
-    if(isEmail && pass.length === 6){
-      const { data, error } = await supabaseClient.auth.verifyOtp({
-        email: input,
-        token: pass,
-        type: "email"
-      });
-
-      if(error) return alert(error.message);
-
-      localStorage.setItem("token", data.session.access_token);
-      window.location.href = "homepage.html";
-      return;
-    }
-
-    // =========================
-    // 🔐 PASSWORD LOGIN (DEFAULT)
-    // =========================
-    const { data, error } = await supabaseClient.auth.signInWithPassword({
-      email: input,
-      password: pass
-    });
-
-    if(error) return alert(error.message);
-
-    localStorage.setItem("token", data.session.access_token);
+  if(data.token){
+    localStorage.setItem("token", data.token);
     window.location.href = "homepage.html";
-
-  } catch(err){
-    alert("Something went wrong");
-    console.log(err);
+  } else {
+    alert(data.error || "Login failed");
   }
 }
 
@@ -239,16 +162,13 @@ async function signup(){
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
-  const { error } = await supabaseClient.auth.signUp({
-    email,
-    password
+  await fetch("https://visco.onrender.com/signup", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({ email, password })
   });
 
-  if(error){
-    alert(error.message);
-  } else {
-    alert("Signup successful. Now login.");
-  }
+  alert("Signup done. Now login.");
 }
 
 function goHome(){
