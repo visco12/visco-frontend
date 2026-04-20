@@ -327,7 +327,7 @@ function showProducts(data){
       bestPlatform = "Flipkart";
     }
 
-    // ✅ Highest price (for discount)
+    // ✅ Max price
     let maxPrice = Math.max(amazon, flipkart);
 
     // ✅ Discount %
@@ -336,50 +336,37 @@ function showProducts(data){
       discount = Math.round(((maxPrice - bestPrice) / maxPrice) * 100);
     }
 
+    // ✅ HOT LOGIC (MOVE OUTSIDE HTML)
+    let isHot = discount >= 25;
+
     return `
-    <div class="card">
-      let isHot = discount >= 25;
-
-return `
-<div class="card ${isHot ? "hot-card" : ""}">
-  
-  <div class="img-box">
-    <img src="${p.image}">
-    
-    ${isHot ? `<div class="hot-badge">🔥 HOT</div>` : ""}
-
-    <div class="best-badge">
-      🏆 ${bestPlatform}
-    </div>
-
-    ${discount > 20 
-      ? `<div class="discount-badge price-drop">🔻 ${discount}%</div>` 
-      : discount > 0 
-        ? `<div class="discount-badge">-${discount}%</div>` 
-        : ""
-    }
-  </div>
+    <div class="card ${isHot ? "hot-card" : ""}">
+      
       <div class="img-box">
         <img src="${p.image}">
-        
-        <!-- 🏆 Best platform -->
+
+        ${isHot ? `<div class="hot-badge">🔥 HOT</div>` : ""}
+
         <div class="best-badge">
           🏆 ${bestPlatform}
         </div>
 
-        <!-- 🔥 Discount badge -->
-      ${discount > 20 
-  ? `<div class="discount-badge price-drop">🔻 ${discount}%</div>` 
-  : discount > 0 
-    ? `<div class="discount-badge">-${discount}%</div>` 
-    : ""
-}
+        ${
+          discount > 20
+          ? `<div class="discount-badge price-drop">🔻 ${discount}%</div>`
+          : discount > 0
+          ? `<div class="discount-badge">-${discount}%</div>`
+          : ""
+        }
+
       </div>
 
       <h4>${p.name}</h4>
-<p style="font-size:13px;opacity:0.7;text-decoration:line-through;">
-₹${maxPrice}
-</p>
+
+      <p style="font-size:13px;opacity:0.7;text-decoration:line-through;">
+        ₹${maxPrice}
+      </p>
+
       <p style="color:#22d3ee;font-weight:600;font-size:15px;">
         💰 Best Deal: ₹${bestPrice}
       </p>
