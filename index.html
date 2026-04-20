@@ -41,10 +41,15 @@ main{
   backdrop-filter:blur(25px);
   border:1px solid rgba(255,255,255,0.1);
   border-radius:20px;
-  padding:50px;
+  padding:40px; /* reduced from 50 */
   width:100%;
   max-width:420px;
   box-shadow:0 20px 60px rgba(0,0,0,0.5);
+  transition:0.3s;
+}
+
+.login-container:hover{
+  transform:translateY(-3px);
 }
 
 h1{ text-align:center; margin-bottom:30px; }
@@ -78,9 +83,31 @@ h1{ text-align:center; margin-bottom:30px; }
 }
 
 .back-btn{
+  margin-top:18px;
   text-align:center;
-  margin-top:20px;
+  font-size:18px;
+  width:40px;
+  height:40px;
+  margin-left:auto;
+  margin-right:auto;
+  border-radius:50%;
+  background:rgba(255,255,255,0.08);
+  display:flex;
+  align-items:center;
+  justify-content:center;
   cursor:pointer;
+  border:1px solid rgba(255,255,255,0.12);
+  transition:0.2s;
+}
+
+.back-btn:hover{
+  background:rgba(34,211,238,0.15);
+  transform:scale(1.1);
+}
+  .form-group input:focus{
+  outline:none;
+  border:1px solid #22d3ee;
+  box-shadow:0 0 10px rgba(34,211,238,0.3);
 }
 </style>
 </head>
@@ -164,6 +191,22 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
   btn.disabled = false;
   btn.innerText = "Login";
 });
+  function toast(msg){
+  const t = document.createElement("div");
+  t.innerText = msg;
+  t.style.position="fixed";
+  t.style.bottom="20px";
+  t.style.left="50%";
+  t.style.transform="translateX(-50%)";
+  t.style.background="rgba(0,0,0,0.8)";
+  t.style.color="white";
+  t.style.padding="10px 20px";
+  t.style.borderRadius="10px";
+  t.style.zIndex="9999";
+  document.body.appendChild(t);
+
+  setTimeout(()=>t.remove(),2000);
+}
 
 // SIGNUP
 async function signup(){
@@ -185,7 +228,7 @@ async function signup(){
     const data = await res.json();
 
     if(res.ok){
-      alert("Signup successful. Now login.");
+    toast("Signup successful 🚀 , Now login ");
     } else {
       alert(data.error || "Signup failed");
     }
