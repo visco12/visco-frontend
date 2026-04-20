@@ -166,6 +166,15 @@ font-size:18px;
     grid-template-columns:1fr;
   }
 }
+  canvas{
+  max-height:280px;
+}
+
+.graph-box{
+  backdrop-filter: blur(20px);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+}
 </style>
 </head>
 
@@ -293,16 +302,85 @@ ${getDetails(p)}
 `;
 
 // CHARTS
-new Chart(document.getElementById("priceChart"),{
-type:'bar',
-data:{labels:keys,datasets:[{data:values,backgroundColor:'#8b5cf6'}]},
-options:{responsive:true,plugins:{legend:{display:false}}}
+new Chart(document.getElementById("priceChart"), {
+  type: 'bar',
+  data: {
+    labels: keys,
+    datasets: [{
+      label: 'Price',
+      data: values,
+      borderRadius: 10,
+      borderSkipped: false,
+      backgroundColor: (ctx) => {
+        const gradient = ctx.chart.ctx.createLinearGradient(0, 0, 0, 300);
+        gradient.addColorStop(0, '#22d3ee');
+        gradient.addColorStop(1, '#8b5cf6');
+        return gradient;
+      }
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: '#0f172a',
+        titleColor: '#22d3ee',
+        bodyColor: '#fff',
+        padding: 10
+      }
+    },
+    scales: {
+      x: {
+        grid: { display: false },
+        ticks: { color: '#cbd5e1' }
+      },
+      y: {
+        grid: { color: 'rgba(255,255,255,0.08)' },
+        ticks: { color: '#cbd5e1' }
+      }
+    }
+  }
 });
 
-new Chart(document.getElementById("ratingChart"),{
-type:'line',
-data:{labels:keys,datasets:[{data: keys.map(()=>p.rating || 0),borderColor:'#22d3ee',fill:true,backgroundColor:'rgba(34,211,238,0.2)'}]},
-options:{responsive:true,plugins:{legend:{display:false}}}
+new Chart(document.getElementById("ratingChart"), {
+  type: 'line',
+  data: {
+    labels: keys,
+    datasets: [{
+      label: 'Rating',
+      data: keys.map(() => p.rating || 0),
+      fill: true,
+      tension: 0.4,
+      borderColor: '#22d3ee',
+      backgroundColor: 'rgba(34,211,238,0.15)',
+      pointBackgroundColor: '#8b5cf6',
+      pointRadius: 5
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: '#0f172a',
+        titleColor: '#22d3ee',
+        bodyColor: '#fff'
+      }
+    },
+    scales: {
+      x: {
+        grid: { display: false },
+        ticks: { color: '#cbd5e1' }
+      },
+      y: {
+        grid: { color: 'rgba(255,255,255,0.08)' },
+        ticks: { color: '#cbd5e1' },
+        min: 0,
+        max: 5
+      }
+    }
+  }
 });
 
 }catch(err){
