@@ -154,6 +154,18 @@ font-size:18px;
 .back-btn:hover{
   background:rgba(255,255,255,0.2);
 }
+  .product-layout{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:20px;
+  align-items:start;
+}
+
+@media(max-width:768px){
+  .product-layout{
+    grid-template-columns:1fr;
+  }
+}
 </style>
 </head>
 
@@ -264,6 +276,7 @@ document.getElementById("main").innerHTML=`
 ${priceHTML}
 
 <div class="buy-btn" onclick="window.open('${links[bestKey]}')">
+🚀 Buy Now at Best Price
 </div>
 
 ${getDetails(p)}
