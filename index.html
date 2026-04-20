@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - Visco Compare</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  font-family:'Poppins',sans-serif;
+  background: radial-gradient(circle at top,#1e293b,#0a1858);
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
+  color:white;
+}
+
+header{ padding:30px 50px; }
+
+.logo span{
+  font-size:24px;
+  font-weight:700;
+  background:linear-gradient(90deg,#8b5cf6,#8b8b8b);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+main{
+  flex:1;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.login-container{
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(25px);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:20px;
+  padding:50px;
+  width:100%;
+  max-width:420px;
+  box-shadow:0 20px 60px rgba(0,0,0,0.5);
+}
+
+h1{ text-align:center; margin-bottom:30px; }
+
+.form-group{ margin-bottom:15px; }
+
+.form-group input{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,0.2);
+  background:rgba(255,255,255,0.05);
+  color:white;
+}
+
+.login-btn{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:30px;
+  background:linear-gradient(135deg,#8b5cf6,#22d3ee);
+  color:black;
+  font-weight:600;
+  cursor:pointer;
+  margin-top:10px;
+}
+
+.login-btn:disabled{
+  opacity:0.6;
+  cursor:not-allowed;
+}
+
+.back-btn{
+  text-align:center;
+  margin-top:20px;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">
+    <span>⚡ visco compare</span>
+  </div>
+</header>
+
+<main>
+<div class="login-container">
+
+<h1>Login</h1>
+
+<form onsubmit="login(event)">
+  <div class="form-group">
+    <input type="email" id="email" placeholder="Email" required>
+  </div>
+
+  <div class="form-group">
+    <input type="password" id="password" placeholder="Password" required>
+  </div>
+
+  <button class="login-btn" id="loginBtn">Login</button>
+</form>
+
+<button onclick="signup()" class="login-btn">Create Account</button>
+
+<div class="back-btn" onclick="goHome()">⬅ Back</div>
+
+</div>
+</main>
+
+<script>
+
+// 🔥 BACKEND URL
+const API = "https://visco.onrender.com";
+
+// LOGIN
+async function login(e){
+  e.preventDefault();
+
+  const btn = document.getElementById("loginBtn");
+  btn.disabled = true;
+  btn.innerText = "Logging in...";
+
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
+
+  try{
+    const res = await fetch(API + "/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ email, password })
+    });
+
+    const data = await res.json();
+
+    if(res.ok && data.token){
+      localStorage.setItem("token", data.token);
+      window.location.href = "homepage.html";
+    } else {
+      alert(data.error || "Login failed");
+    }
+
+  }catch(err){
+    alert("Server error. Try again.");
+    console.log(err);
+  }
+
+  btn.disabled = false;
+  btn.innerText = "Login";
+}
+
+// SIGNUP
+async function signup(){
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
+
+  if(!email || !password){
+    alert("Enter email and password");
+    return;
+  }
+
+  try{
+    const res = await fetch(API + "/signup", {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({ email, password })
+    });
+
+    const data = await res.json();
+
+    if(res.ok){
+      alert("Signup successful. Now login.");
+    } else {
+      alert(data.error || "Signup failed");
+    }
+
+  }catch(err){
+    alert("Server error");
+    console.log(err);
+  }
+}
+
+// BACK
+function goHome(){
+  window.location.href = "homepage.html";
+}
+
+</script>
+</body>
+</html>
