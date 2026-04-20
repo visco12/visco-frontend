@@ -65,10 +65,19 @@ body{
 }
 
 .cat{
-  padding:8px 15px;
+  padding:10px 14px;
   border-radius:20px;
-  background:var(--glass);
+  background:rgba(255,255,255,0.06);
   cursor:pointer;
+  transition:0.2s;
+  border:1px solid rgba(255,255,255,0.08);
+  white-space:nowrap;
+}
+
+.cat:hover{
+  background:rgba(34,211,238,0.15);
+  border:1px solid rgba(34,211,238,0.3);
+  transform:translateY(-2px);
 }
 
 .products{
@@ -79,36 +88,66 @@ body{
 }
 
 .card{
-  background:var(--glass);
-  padding:10px;
-  border-radius:15px;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.10);
+  padding:12px;
+  border-radius:16px;
   text-align:center;
+  transition:0.25s ease;
+  backdrop-filter: blur(12px);
+  box-shadow:0 6px 18px rgba(0,0,0,0.25);
 }
 
+.card:hover{
+  transform: translateY(-6px);
+  border:1px solid rgba(34,211,238,0.4);
+  box-shadow:0 10px 30px rgba(34,211,238,0.15);
+}
+.card{
+  cursor:pointer;
+}
 .card img{
   width:100%;
-  height:140px;
+  height:160px;
   object-fit:cover;
-  border-radius:10px;
+  border-radius:12px;
+  transition:0.3s;
+}
+
+.card img:hover{
+  transform: scale(1.05);
 }
 
 .btn{
   margin-top:8px;
-  padding:8px;
+  padding:9px;
   border:none;
-  border-radius:15px;
-  background:#101318;
+  border-radius:12px;
+  background:rgba(255,255,255,0.08);
   color:white;
   cursor:pointer;
+  transition:0.2s;
+}
+
+.btn:hover{
+  background:rgba(255,255,255,0.18);
+  transform:scale(1.03);
 }
 
 .buy{
   margin-top:8px;
-  padding:8px;
+  padding:9px;
   border:none;
-  border-radius:15px;
-  background:#4ade80;
+  border-radius:12px;
+  background:linear-gradient(135deg,#22c55e,#16a34a);
   cursor:pointer;
+  font-weight:600;
+  transition:0.2s;
+}
+
+.buy:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 15px rgba(34,197,94,0.4);
 }
 
 .stores-section{
@@ -206,7 +245,9 @@ function showProducts(data){
     <div class="card">
       <img src="${p.image}">
       <h4>${p.name}</h4>
-      <p>Best Price: ₹${bestPrice}</p>
+      <p style="color:#22d3ee;font-weight:600;font-size:15px;">
+💰 Best Deal: ₹${bestPrice}
+</p>
       <button class="btn" onclick="compare(${p.id})">Compare</button>
       <button class="buy" onclick="buyBest(${p.id})">Buy</button>
     </div>
