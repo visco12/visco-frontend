@@ -6,7 +6,6 @@
 <title>Login - Visco Compare</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -99,7 +98,7 @@ h1{ text-align:center; margin-bottom:30px; }
 
 <h1>Login</h1>
 
-<form onsubmit="login(event)">
+<form id="loginForm">
   <div class="form-group">
     <input type="email" id="email" placeholder="Email" required>
   </div>
@@ -108,7 +107,7 @@ h1{ text-align:center; margin-bottom:30px; }
     <input type="password" id="password" placeholder="Password" required>
   </div>
 
-  <button class="login-btn" id="loginBtn">Login</button>
+  <button type="submit" class="login-btn" id="loginBtn">Login</button>
 </form>
 
 <button onclick="signup()" class="login-btn">Create Account</button>
@@ -123,8 +122,8 @@ h1{ text-align:center; margin-bottom:30px; }
 // 🔥 BACKEND URL
 const API = "https://visco.onrender.com";
 
-// LOGIN
-async function login(e){
+// 🚀 HANDLE FORM SUBMIT (NO REFRESH)
+document.getElementById("loginForm").addEventListener("submit", async function(e){
   e.preventDefault();
 
   const btn = document.getElementById("loginBtn");
@@ -145,21 +144,26 @@ async function login(e){
 
     const data = await res.json();
 
+    console.log("LOGIN RESPONSE:", data); // 🔥 DEBUG
+
     if(res.ok && data.token){
       localStorage.setItem("token", data.token);
-      window.location.href = "homepage.html";
+
+      // ✅ IMPORTANT: FORCE REDIRECT
+      window.location.replace("homepage.html");
+
     } else {
-      alert(data.error || "Login failed");
+      alert(data.error || "Invalid email or password");
     }
 
   }catch(err){
-    alert("Server error. Try again.");
     console.log(err);
+    alert("Server error. Try again.");
   }
 
   btn.disabled = false;
   btn.innerText = "Login";
-}
+});
 
 // SIGNUP
 async function signup(){
