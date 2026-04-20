@@ -140,15 +140,26 @@ font-size:18px;
 }
 .back-btn{
   position:absolute;
-  top:20px;
-  left:20px;
-  background:rgba(255,255,255,0.1);
-  padding:8px 15px;
-  border-radius:20px;
+  top:18px;
+  left:18px;
+  width:38px;
+  height:38px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:rgba(255,255,255,0.08);
+  color:white;
+  font-size:20px;
   cursor:pointer;
-  font-size:14px;
-  backdrop-filter: blur(10px);
-  transition:0.2s;
+  backdrop-filter: blur(12px);
+  border:1px solid rgba(255,255,255,0.12);
+  transition:0.2s ease;
+}
+
+.back-btn:hover{
+  background:rgba(255,255,255,0.18);
+  transform:scale(1.05);
 }
 
 .back-btn:hover{
@@ -182,7 +193,7 @@ font-size:18px;
 
 <header>⚡ Product Details</header>
 <div class="container" id="main"></div>
-<div class="back-btn" onclick="goBack()">⬅ Back</div>
+<div class="back-btn" onclick="goBack()">←</div>
 <script>
 const id = localStorage.getItem("productId");
 
