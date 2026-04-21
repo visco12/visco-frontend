@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="icon" href="/logo.png">
+<link rel="apple-touch-icon" href="/logo.png">
+<meta name="theme-color" content="#8b5cf6">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>visco compare</title>
@@ -228,13 +231,36 @@ body{
 .price-drop{
   animation: pulseDrop 1s infinite;
 }
+  .logo-box{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.logo-img{
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  box-shadow:0 0 10px rgba(139,92,246,0.6);
+}
+
+.brand-text{
+  font-size:20px;
+  font-weight:700;
+  background:linear-gradient(90deg,#8b5cf6,#22d3ee);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
 </style>
 </head>
 
 <body>
 
 <div class="topbar">
-  <div class="logo">⚡ visco Smart</div>
+  <div class="logo-box">
+  <img src="/logo.png" class="logo-img">
+  <span class="brand-text">Visco Compare</span>
+</div>
   <div class="signin" onclick="goLogin()">Sign in</div>
 </div>
 
