@@ -258,11 +258,12 @@ function buyBest(id){
 async function getProducts() {
   const token = localStorage.getItem("token");
 
-  if (!token) {
-    window.location.href = "index.html";
-    return;
-  }
-
+  const token = localStorage.getItem("token");
+if(token){
+  console.log("Logged in user");
+}else{
+  console.log("Guest mode");
+}
   try {
     const res = await fetch("https://visco.onrender.com/products", {
       headers: {
