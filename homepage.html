@@ -163,6 +163,7 @@ body{
   <h2 style="padding:20px;">🛍️ All Stores</h2>
   <div class="store-grid" id="storeGrid"></div>
 </div>
+  <span id="userMode" style="font-size:12px;opacity:0.7;"></span>
 
 <script>
   function checkLogin(){
@@ -265,8 +266,13 @@ function buyBest(id){
 
 // ✅ MAIN FETCH (FIXED)
 async function getProducts() {
-  const token = localStorage.getItem("token");
+ const token = localStorage.getItem("token");
+const guest = localStorage.getItem("guest");
 
+if(!token && !guest){
+  window.location.href = "index.html";
+  return;
+}
  
 
   try {
@@ -302,12 +308,15 @@ async function getProducts() {
       `<p style="text-align:center;color:#f87171;">⚠️ Backend not running</p>`;
   }
 }
-
-// INIT
 window.onload = () => {
   checkLogin();
   getProducts();
+
+  const mode = localStorage.getItem("guest") ? "Guest Mode" : "User Mode";
+  document.getElementById("userMode").innerText = mode;
 };
+// INIT
+
 
 </script>
 
