@@ -262,18 +262,11 @@ function buyBest(id){
 
 // ✅ MAIN FETCH (FIXED)
 async function getProducts() {
-  const token = localStorage.getItem("token");
-
-  if(token){
-    console.log("Logged in user");
-  } else {
-    console.log("Guest mode");
-  }
-
   try {
+    const token = localStorage.getItem("token");
 
     const headers = {};
-    if(token){
+    if (token) {
       headers["Authorization"] = "Bearer " + token;
     }
 
@@ -281,9 +274,21 @@ async function getProducts() {
       headers
     });
 
-    console.log("Response status:", res.status);
+    console.log("Status:", res.status);
 
-    let data = await res.json();
+    const text = await res.text(); // safer than json first
+    let data;
+
+    try {
+      data = JSON.parse(text);
+    } catch (e) {
+      console.log("Not JSON response:", text);
+      throw new Error("Invalid API response");
+    }
+
+    if (!Array.isArray(data)) {
+      throw new Error("API did not return array");
+    }
 
     productsData = data.map(p => ({
       ...p,
@@ -294,12 +299,12 @@ async function getProducts() {
     }));
 
     loadStores();
-    showProducts(productsData);
+    showProducts(productsData.slice(0, 12));
 
   } catch (err) {
-    console.log("Backend error:", err);
+    console.log("ERROR:", err);
     document.getElementById("products").innerHTML =
-      `<p style="text-align:center;color:#f87171;">⚠️ Backend not running</p>`;
+      `<p style="color:red;text-align:center;">⚠️ Failed to load products</p>`;
   }
 }
 
