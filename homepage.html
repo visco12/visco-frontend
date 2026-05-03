@@ -45,17 +45,6 @@ body{
   background:linear-gradient(135deg,#8b5cf6,#22d3ee);
   cursor:pointer;
 }
-  .logo{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.logo-img{
-  width:32px;
-  height:32px;
-  border-radius:8px;
-}
 
 .hero{
   text-align:center;
@@ -132,8 +121,16 @@ body{
   gap:10px;
   padding:10px;
 }
-  body{
-  overflow-x:hidden;
+  .logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.logo-img{
+  width:32px;
+  height:32px;
+  border-radius:8px;
 }
 </style>
 </head>
@@ -142,8 +139,9 @@ body{
 
 <div class="topbar">
   <div class="logo">
-  <img src="logo.png" class="logo-img">
-  <span>visco compare</span>
+    <img src="logo.png" class="logo-img">
+    <span>visco compare</span>
+  </div>
 </div>
 
 <div class="hero">
@@ -241,15 +239,9 @@ function filter(cat){
 
 // SEARCH
 function search(val){
-  if(!val){
-    showProducts(productsData.slice(0, 10)); // reset to 10
-    return;
-  }
-
   let filtered = productsData.filter(p =>
     p.name.toLowerCase().includes(val.toLowerCase())
   );
-
   showProducts(filtered);
 }
 
@@ -272,10 +264,9 @@ function buyBest(id){
 async function getProducts() {
   const token = localStorage.getItem("token");
 
-  if(token){
-    console.log("Logged in user");
-  } else {
-    console.log("Guest mode");
+  if (!token) {
+    window.location.href = "index.html";
+    return;
   }
 
   try {
@@ -303,7 +294,7 @@ async function getProducts() {
     }));
 
     loadStores();
-   showProducts(productsData.slice(0, 10));
+    showProducts(productsData);
 
   } catch (err) {
     console.log("Backend error:", err);
@@ -407,7 +398,7 @@ window.onload = () => {
 
   <div>
     <h3>Contact</h3>
-    <a href="mailto:support@visco.com">support.visco@gmail.com</a>
+    <a href="mailto:support@visco.com">support@visco.com</a>
     <a href="#">Business Inquiry</a>
   </div>
 
