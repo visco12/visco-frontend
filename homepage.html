@@ -275,12 +275,15 @@ if(!token && !guest){
 }
  
 
-  try {
-    const res = await fetch("https://visco.onrender.com/products", {
-      headers: {
-        "Authorization": "Bearer " + token
-      }
-    });
+  const headers = {};
+
+if (token) {
+  headers["Authorization"] = "Bearer " + token;
+}
+
+const res = await fetch("https://visco.onrender.com/products", {
+  headers
+});
 
     if (res.status === 401) {
       alert("Login expired");
