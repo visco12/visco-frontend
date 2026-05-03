@@ -132,6 +132,9 @@ body{
   gap:10px;
   padding:10px;
 }
+  body{
+  overflow-x:hidden;
+}
 </style>
 </head>
 
@@ -269,12 +272,12 @@ function buyBest(id){
 async function getProducts() {
   const token = localStorage.getItem("token");
 
-  const token = localStorage.getItem("token");
-if(token){
-  console.log("Logged in user");
-}else{
-  console.log("Guest mode");
-}
+  if(token){
+    console.log("Logged in user");
+  } else {
+    console.log("Guest mode");
+  }
+
   try {
     const res = await fetch("https://visco.onrender.com/products", {
       headers: {
