@@ -266,21 +266,18 @@ function buyBest(id){
 
 // ✅ MAIN FETCH (FIXED)
 async function getProducts() {
- const token = localStorage.getItem("token");
-const guest = localStorage.getItem("guest");
+  try {
+    const token = localStorage.getItem("token");
 
+    const headers = {};
 
- 
+    if (token) {
+      headers["Authorization"] = "Bearer " + token;
+    }
 
-  const headers = {};
-
-if (token) {
-  headers["Authorization"] = "Bearer " + token;
-}
-
-const res = await fetch("https://visco.onrender.com/products", {
-  headers
-});
+    const res = await fetch("https://visco.onrender.com/products", {
+      headers
+    });
 
     if (res.status === 401) {
       alert("Login expired");
@@ -289,7 +286,9 @@ const res = await fetch("https://visco.onrender.com/products", {
       return;
     }
 
-    let data = await res.json();
+    const data = await res.json();
+
+    console.log("PRODUCTS:", data);
 
     productsData = data.map(p => ({
       ...p,
