@@ -201,7 +201,12 @@ const stores = [
   ["Croma", "https://www.croma.com"],
   ["Reliance Digital", "https://www.reliancedigital.in"]
 ];
+function compare(id){
+  console.log("Compare clicked:", id);
 
+  localStorage.setItem("productId", id);
+  window.location.href = "detialspage.html";
+}
 function loadStores(){
   const grid = document.getElementById("storeGrid");
 
