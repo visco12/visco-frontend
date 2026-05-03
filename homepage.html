@@ -226,9 +226,15 @@ function filter(cat){
 
 // SEARCH
 function search(val){
+  if(!val){
+    showProducts(productsData.slice(0, 10)); // reset to 10
+    return;
+  }
+
   let filtered = productsData.filter(p =>
     p.name.toLowerCase().includes(val.toLowerCase())
   );
+
   showProducts(filtered);
 }
 
@@ -281,7 +287,7 @@ async function getProducts() {
     }));
 
     loadStores();
-    showProducts(productsData);
+   showProducts(productsData.slice(0, 10));
 
   } catch (err) {
     console.log("Backend error:", err);
