@@ -241,17 +241,16 @@ function filter(cat){
 }
 
 // SEARCH
-function search(val){
-  let filtered = productsData.filter(p =>
-    p.name.toLowerCase().includes(val.toLowerCase())
-  );
-  showProducts(filtered);
-}
+async function search(val){
+  if(!val){
+    showProducts(productsData.slice(0, 10));
+    return;
+  }
 
-// COMPARE
-function compare(id){
-  localStorage.setItem("productId", id);
-  window.location.href = "detialspage.html";
+  const res = await fetch(`https://visco.onrender.com/search?q=${val}`);
+  const data = await res.json();
+
+  showProducts(data);
 }
 
 // BUY BEST
@@ -299,8 +298,7 @@ async function getProducts() {
     }));
 
     loadStores();
-    showProducts(productsData);
-
+   showProducts(productsData.slice(0, 10));
   } catch (err) {
     console.log("Backend error:", err);
     document.getElementById("products").innerHTML =
