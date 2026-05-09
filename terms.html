@@ -3,54 +3,239 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Terms - Visco Compare</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
-:root{
-  --bg1:#080d18;
-  --bg2:#5838c3;
-  --glass: rgba(255,255,255,0.06);
-  --border: rgba(255,255,255,0.12);
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
+
+:root{
+
+  --primary:#3ecf8e;
+  --primary-hover:#2eb67d;
+
+  --bg:#f8faf9;
+  --card:#ffffff;
+
+  --text:#111827;
+  --muted:#6b7280;
+
+  --border:#d1fae5;
+}
+
+/* =========================
+   BODY
+========================= */
 
 body{
-  margin:0;
+
   font-family:'Poppins',sans-serif;
-  background: linear-gradient(135deg,var(--bg1),var(--bg2));
-  color:white;
+
+  background:linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #f0fdf4 100%
+  );
+
+  color:var(--text);
+
+  min-height:100vh;
+
+  position:relative;
+
+  overflow-x:hidden;
 }
+
+/* GLOW */
+
+body::before{
+  content:"";
+
+  position:absolute;
+
+  width:500px;
+  height:500px;
+
+  background:rgba(62,207,142,0.10);
+
+  filter:blur(120px);
+
+  top:-220px;
+  right:-180px;
+
+  border-radius:50%;
+}
+
+body::after{
+  content:"";
+
+  position:absolute;
+
+  width:400px;
+  height:400px;
+
+  background:rgba(62,207,142,0.07);
+
+  filter:blur(120px);
+
+  bottom:-180px;
+  left:-150px;
+
+  border-radius:50%;
+}
+
+/* =========================
+   CONTAINER
+========================= */
 
 .container{
-  max-width:900px;
+
+  max-width:950px;
+
   margin:auto;
-  padding:40px 20px;
+
+  padding:60px 20px;
+
+  position:relative;
+
+  z-index:2;
 }
+
+/* =========================
+   CARD
+========================= */
 
 .card{
-  background:var(--glass);
+
+  background:rgba(255,255,255,0.88);
+
+  backdrop-filter:blur(18px);
+
   border:1px solid var(--border);
-  border-radius:15px;
-  padding:25px;
-  backdrop-filter: blur(12px);
+
+  border-radius:30px;
+
+  padding:40px;
+
+  box-shadow:
+    0 10px 40px rgba(62,207,142,0.10),
+    0 2px 10px rgba(0,0,0,0.04);
+
+  transition:0.25s;
 }
+
+.card:hover{
+
+  transform:translateY(-4px);
+
+  box-shadow:
+    0 20px 50px rgba(62,207,142,0.14),
+    0 4px 15px rgba(0,0,0,0.06);
+}
+
+/* =========================
+   TITLE
+========================= */
 
 h1{
-  background:linear-gradient(90deg,#8b5cf6,#22d3ee);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
+
+  font-size:42px;
+
+  margin-bottom:24px;
+
+  color:var(--primary);
+
+  font-weight:700;
 }
+
+/* =========================
+   TEXT
+========================= */
 
 p{
-  opacity:0.9;
-  line-height:1.7;
+
+  color:var(--muted);
+
+  line-height:1.9;
+
+  font-size:15px;
+
+  margin-bottom:18px;
 }
 
-a{
-  color:#22d3ee;
+/* =========================
+   BACK BUTTON
+========================= */
+
+.back{
+
+  display:inline-flex;
+
+  align-items:center;
+
+  gap:8px;
+
+  margin-top:28px;
+
+  padding:14px 22px;
+
+  border-radius:16px;
+
+  background:white;
+
+  border:1px solid var(--border);
+
+  color:var(--primary);
+
   text-decoration:none;
+
+  font-weight:600;
+
+  transition:0.25s;
+
+  box-shadow:
+    0 5px 15px rgba(62,207,142,0.08);
 }
+
+.back:hover{
+
+  background:#f0fdf4;
+
+  transform:translateY(-2px);
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:700px){
+
+  .container{
+    padding:30px 16px;
+  }
+
+  .card{
+    padding:28px 22px;
+    border-radius:24px;
+  }
+
+  h1{
+    font-size:30px;
+  }
+
+  p{
+    font-size:14px;
+  }
+
+}
+
 </style>
 </head>
 
@@ -58,43 +243,43 @@ a{
 
 <div class="container">
 
-<div class="card">
+  <div class="card">
 
-<h1>Terms & Conditions</h1>
+    <h1>Terms & Conditions</h1>
 
-<p>
-By using Visco Compare, you agree to the following terms and conditions.
-</p>
+    <p>
+      By using Visco Compare, you agree to the following terms and conditions.
+    </p>
 
-<p>
-1. Visco Compare does not sell or ship any products directly. We only provide comparison and redirect users to external websites.
-</p>
+    <p>
+      1. Visco Compare does not sell or ship any products directly. We only provide comparison and redirect users to external websites.
+    </p>
 
-<p>
-2. All product information, prices, images, and trademarks belong to their respective owners such as Amazon and Flipkart.
-</p>
+    <p>
+      2. All product information, prices, images, and trademarks belong to their respective owners such as Amazon and Flipkart.
+    </p>
 
-<p>
-3. Prices and availability may change without notice as they are controlled by third-party platforms.
-</p>
+    <p>
+      3. Prices and availability may change without notice as they are controlled by third-party platforms.
+    </p>
 
-<p>
-4. We are not responsible for any transactions made on external websites.
-</p>
+    <p>
+      4. We are not responsible for any transactions made on external websites.
+    </p>
 
-<p>
-5. Users should verify product details before making any purchase.
-</p>
+    <p>
+      5. Users should verify product details before making any purchase.
+    </p>
 
-<p>
-6. By clicking external links, users are subject to the terms of those third-party websites.
-</p>
+    <p>
+      6. By clicking external links, users are subject to the terms of those third-party websites.
+    </p>
 
-</div>
+    <a href="homepage.html" class="back">
+      ← Back to Home
+    </a>
 
-<br>
-
-<a href="homepage.html" style="color:white;opacity:0.8;">← Back to Home</a>
+  </div>
 
 </div>
 
