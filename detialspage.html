@@ -6,6 +6,7 @@
 <title>Product Details - Visco Compare</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
@@ -23,13 +24,9 @@
 
   --border:#e5e7eb;
 
-  --shadow:rgba(0,0,0,0.06);
-
 }
 
-/* =========================
-   BODY
-========================= */
+/* BODY */
 
 body{
   margin:0;
@@ -40,7 +37,7 @@ body{
   position:relative;
 }
 
-/* GLOW EFFECTS */
+/* GLOW */
 
 body::before{
   content:"";
@@ -68,9 +65,7 @@ body::after{
   z-index:0;
 }
 
-/* =========================
-   HEADER
-========================= */
+/* HEADER */
 
 header{
   position:sticky;
@@ -94,9 +89,7 @@ header{
   color:var(--primary);
 }
 
-/* =========================
-   BACK BUTTON
-========================= */
+/* BACK */
 
 .back-btn{
   position:absolute;
@@ -123,63 +116,39 @@ header{
 }
 
 .back-btn:hover{
-  transform:translateY(-2px);
   background:var(--primary);
   color:white;
 }
 
-/* =========================
-   CONTAINER
-========================= */
+/* CONTAINER */
 
 .container{
   max-width:1100px;
   margin:auto;
-  padding:25px;
+  padding:24px;
   position:relative;
   z-index:2;
 }
 
-/* =========================
-   PRODUCT LAYOUT
-========================= */
+/* LAYOUT */
 
 .product-layout{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:24px;
-  align-items:start;
 }
 
-/* =========================
-   CARD
-========================= */
+/* CARD */
 
 .card{
-  background:var(--card);
-
+  background:white;
   border:1px solid var(--border);
-
   border-radius:28px;
-
   padding:24px;
-
-  box-shadow:
-    0 10px 30px rgba(0,0,0,0.04);
-
-  transition:0.25s;
+  box-shadow:0 10px 30px rgba(0,0,0,0.04);
 }
 
-.card:hover{
-  transform:translateY(-3px);
-
-  box-shadow:
-    0 20px 40px rgba(62,207,142,0.08);
-}
-
-/* =========================
-   IMAGE
-========================= */
+/* IMAGE */
 
 .image-box{
   position:relative;
@@ -200,9 +169,7 @@ header{
   transform:scale(1.04);
 }
 
-/* =========================
-   RATING
-========================= */
+/* RATING */
 
 .rating{
   position:absolute;
@@ -219,24 +186,17 @@ header{
 
   font-size:13px;
   font-weight:600;
-
-  box-shadow:
-    0 6px 20px rgba(62,207,142,0.25);
 }
 
-/* =========================
-   TITLE
-========================= */
+/* TITLE */
 
 h2{
+  margin-top:0;
   font-size:28px;
   line-height:1.5;
-  margin-top:0;
 }
 
-/* =========================
-   PRICE BOX
-========================= */
+/* PRICE */
 
 .price{
   display:flex;
@@ -256,8 +216,6 @@ h2{
   cursor:pointer;
 
   transition:0.25s;
-
-  font-weight:500;
 }
 
 .price:hover{
@@ -269,9 +227,7 @@ h2{
   border:1px solid rgba(62,207,142,0.25);
 }
 
-/* =========================
-   BUY BUTTON
-========================= */
+/* BUY */
 
 .buy-btn{
   margin-top:22px;
@@ -286,7 +242,6 @@ h2{
 
   color:white;
 
-  font-size:16px;
   font-weight:600;
 
   cursor:pointer;
@@ -296,12 +251,9 @@ h2{
 
 .buy-btn:hover{
   background:var(--primary-dark);
-  transform:translateY(-2px);
 }
 
-/* =========================
-   TAGS
-========================= */
+/* TAG */
 
 .tag{
   display:inline-block;
@@ -320,33 +272,53 @@ h2{
   font-weight:600;
 }
 
-/* =========================
-   CHART BOX
-========================= */
+/* MODERN GRAPH */
 
 .graph-box{
-  margin-top:22px;
+  margin-top:24px;
 
-  background:white;
+  background:rgba(255,255,255,0.9);
 
-  border:1px solid var(--border);
+  backdrop-filter:blur(18px);
 
-  border-radius:24px;
+  border:1px solid rgba(62,207,142,0.12);
 
-  padding:22px;
+  border-radius:28px;
+
+  padding:24px;
+
+  position:relative;
+
+  overflow:hidden;
 
   box-shadow:
-    0 8px 24px rgba(0,0,0,0.04);
+    0 10px 35px rgba(62,207,142,0.08);
+}
+
+.graph-box::before{
+  content:"";
+  position:absolute;
+  width:220px;
+  height:220px;
+  background:rgba(62,207,142,0.08);
+  filter:blur(90px);
+  top:-80px;
+  right:-80px;
+  border-radius:50%;
 }
 
 .graph-box h3{
   margin-top:0;
-  margin-bottom:18px;
+  margin-bottom:22px;
+  font-size:20px;
 }
 
-/* =========================
-   ERROR
-========================= */
+canvas{
+  width:100% !important;
+  max-height:320px !important;
+}
+
+/* ERROR */
 
 .error{
   text-align:center;
@@ -356,9 +328,7 @@ h2{
   font-weight:600;
 }
 
-/* =========================
-   MOBILE
-========================= */
+/* MOBILE */
 
 @media(max-width:850px){
 
@@ -380,7 +350,6 @@ h2{
 
   .card{
     padding:18px;
-    border-radius:22px;
   }
 
   h2{
@@ -498,13 +467,9 @@ async function loadProduct(){
             onclick="window.open('${links[k]}')"
           >
 
-            <span>
-              🛒 ${nameMap[k]}
-            </span>
+            <span>🛒 ${nameMap[k]}</span>
 
-            <strong>
-              ₹${p[k]}
-            </strong>
+            <strong>₹${p[k]}</strong>
 
           </div>
 
@@ -517,71 +482,9 @@ async function loadProduct(){
 
     }
 
-    function getDetails(p){
-
-      if(p.category === "electronics"){
-
-        return `
-
-          <div class="graph-box">
-
-            <h3>📦 Delivery & Warranty</h3>
-
-            <div class="tag">
-              2-4 Days Delivery
-            </div>
-
-            <div class="tag">
-              7 Days Replacement
-            </div>
-
-            <div class="tag">
-              1 Year Warranty
-            </div>
-
-            <div class="tag">
-              Secure Packaging
-            </div>
-
-          </div>
-
-        `;
-      }
-
-      if(p.category === "fashion"){
-
-        return `
-
-          <div class="graph-box">
-
-            <h3>👕 Product Details</h3>
-
-            <div class="tag">
-              Premium Fabric
-            </div>
-
-            <div class="tag">
-              Easy Returns
-            </div>
-
-            <div class="tag">
-              Trendy Design
-            </div>
-
-          </div>
-
-        `;
-      }
-
-      return "";
-
-    }
-
     document.getElementById("main").innerHTML = `
 
       <div class="product-layout">
-
-        <!-- LEFT -->
 
         <div class="card">
 
@@ -596,8 +499,6 @@ async function loadProduct(){
           </div>
 
         </div>
-
-        <!-- RIGHT -->
 
         <div>
 
@@ -616,8 +517,6 @@ async function loadProduct(){
 
           </div>
 
-          ${getDetails(p)}
-
           <div class="graph-box">
 
             <h3>📊 Price Comparison</h3>
@@ -628,7 +527,7 @@ async function loadProduct(){
 
           <div class="graph-box">
 
-            <h3>⭐ Rating Overview</h3>
+            <h3>📈 Rating Overview</h3>
 
             <canvas id="ratingChart"></canvas>
 
@@ -642,145 +541,201 @@ async function loadProduct(){
 
     // PRICE CHART
 
-    new Chart(
-      document.getElementById("priceChart"),
-      {
+    const priceCtx =
+    document.getElementById("priceChart");
 
-        type:'bar',
+    const gradient =
+    priceCtx.getContext("2d")
+    .createLinearGradient(0,0,0,300);
 
-        data:{
+    gradient.addColorStop(
+      0,
+      "rgba(62,207,142,0.95)"
+    );
 
-          labels:keys,
+    gradient.addColorStop(
+      1,
+      "rgba(62,207,142,0.15)"
+    );
 
-          datasets:[{
+    new Chart(priceCtx,{
 
-            label:'Price',
+      type:"bar",
 
-            data:values,
+      data:{
 
-            borderRadius:12,
+        labels:keys,
 
-            borderSkipped:false,
+        datasets:[{
 
-            backgroundColor:'#3ecf8e'
+          data:values,
 
-          }]
+          backgroundColor:gradient,
+
+          borderRadius:18,
+
+          borderSkipped:false
+
+        }]
+      },
+
+      options:{
+
+        responsive:true,
+
+        animation:{
+          duration:1800
+        },
+
+        plugins:{
+
+          legend:{
+            display:false
+          },
+
+          tooltip:{
+            backgroundColor:"#111827",
+            titleColor:"#3ecf8e",
+            bodyColor:"#fff",
+            padding:14,
+            cornerRadius:14
+          }
 
         },
 
-        options:{
+        scales:{
 
-          responsive:true,
-
-          plugins:{
-
-            legend:{
+          x:{
+            grid:{
               display:false
+            },
+            ticks:{
+              color:"#6b7280"
             }
-
           },
 
-          scales:{
-
-            x:{
-              grid:{
-                display:false
-              },
-              ticks:{
-                color:'#6b7280'
-              }
+          y:{
+            grid:{
+              color:"#e5e7eb"
             },
-
-            y:{
-              grid:{
-                color:'#e5e7eb'
-              },
-              ticks:{
-                color:'#6b7280'
-              }
+            ticks:{
+              color:"#6b7280"
             }
-
           }
 
         }
 
       }
-    );
+
+    });
 
     // RATING CHART
 
-    new Chart(
-      document.getElementById("ratingChart"),
-      {
+    const ratingCtx =
+    document.getElementById("ratingChart");
 
-        type:'line',
+    const lineGradient =
+    ratingCtx.getContext("2d")
+    .createLinearGradient(0,0,0,280);
 
-        data:{
+    lineGradient.addColorStop(
+      0,
+      "rgba(62,207,142,0.35)"
+    );
 
-          labels:keys,
+    lineGradient.addColorStop(
+      1,
+      "rgba(62,207,142,0.02)"
+    );
 
-          datasets:[{
+    new Chart(ratingCtx,{
 
-            label:'Rating',
+      type:"line",
 
-            data:keys.map(() => p.rating || 0),
+      data:{
 
-            fill:true,
+        labels:keys,
 
-            tension:0.4,
+        datasets:[{
 
-            borderColor:'#3ecf8e',
+          data:keys.map(
+            () => p.rating || 0
+          ),
 
-            backgroundColor:'rgba(62,207,142,0.12)',
+          fill:true,
 
-            pointBackgroundColor:'#2eb67d',
+          tension:0.45,
 
-            pointRadius:5
+          borderWidth:4,
 
-          }]
+          borderColor:"#3ecf8e",
+
+          backgroundColor:lineGradient,
+
+          pointBackgroundColor:"#2eb67d",
+
+          pointBorderColor:"#fff",
+
+          pointBorderWidth:3,
+
+          pointRadius:6
+
+        }]
+      },
+
+      options:{
+
+        responsive:true,
+
+        animation:{
+          duration:2000
+        },
+
+        plugins:{
+
+          legend:{
+            display:false
+          },
+
+          tooltip:{
+            backgroundColor:"#111827",
+            titleColor:"#3ecf8e",
+            bodyColor:"#fff",
+            padding:14,
+            cornerRadius:14
+          }
 
         },
 
-        options:{
+        scales:{
 
-          responsive:true,
-
-          plugins:{
-
-            legend:{
+          x:{
+            grid:{
               display:false
+            },
+            ticks:{
+              color:"#6b7280"
             }
-
           },
 
-          scales:{
+          y:{
+            min:0,
+            max:5,
 
-            x:{
-              grid:{
-                display:false
-              },
-              ticks:{
-                color:'#6b7280'
-              }
+            grid:{
+              color:"#e5e7eb"
             },
 
-            y:{
-              grid:{
-                color:'#e5e7eb'
-              },
-              ticks:{
-                color:'#6b7280'
-              },
-              min:0,
-              max:5
+            ticks:{
+              color:"#6b7280"
             }
-
           }
 
         }
 
       }
-    );
+
+    });
 
   }catch(err){
 
