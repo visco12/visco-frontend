@@ -1029,6 +1029,11 @@ body{
 
 </div>
 <script>
+
+/* =========================
+   LOCATION SYSTEM
+========================= */
+
 async function getUserLocation(){
 
   const locationText =
@@ -1036,7 +1041,7 @@ async function getUserLocation(){
 
   locationText.innerText = "Getting...";
 
-  // CHECK GEO SUPPORT
+  // CHECK GEOLOCATION
   if(!navigator.geolocation){
 
     locationText.innerText =
@@ -1057,9 +1062,10 @@ async function getUserLocation(){
         const lng =
           position.coords.longitude;
 
-        console.log(lat,lng);
+        console.log("LAT:",lat);
+        console.log("LNG:",lng);
 
-        // SAVE
+        // SAVE LOCATION
         localStorage.setItem(
           "userLat",
           lat
@@ -1070,7 +1076,10 @@ async function getUserLocation(){
           lng
         );
 
-        // API
+        /* =========================
+           REVERSE GEOCODING
+        ========================= */
+
         const response = await fetch(
 
           `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`,
@@ -1083,29 +1092,45 @@ async function getUserLocation(){
 
         );
 
-        // JSON
+        // IF API FAILS
+        if(!response.ok){
+
+          locationText.innerText =
+            "Location Found";
+
+          return;
+        }
+
         const data =
           await response.json();
 
         console.log(data);
 
-        // ADDRESS
+        // SAFE ADDRESS
+        const address =
+          data.address || {};
+
         const area =
-          data.address.suburb ||
-          data.address.neighbourhood ||
-          data.address.city ||
-          data.address.town ||
+          address.suburb ||
+          address.neighbourhood ||
+          address.city_district ||
+          address.village ||
+          address.town ||
+          address.city ||
           "Unknown";
 
         const city =
-          data.address.city ||
-          data.address.town ||
+          address.city ||
+          address.town ||
+          address.village ||
           "";
 
         const finalLocation =
-          `${area}, ${city}`;
+          city
+          ? `${area}, ${city}`
+          : area;
 
-        // SHOW
+        // SHOW LOCATION
         locationText.innerText =
           finalLocation;
 
@@ -1117,10 +1142,11 @@ async function getUserLocation(){
 
       }catch(err){
 
-        console.error(err);
+        console.log("LOCATION ERROR:",err);
 
+        // FALLBACK
         locationText.innerText =
-          "Location Failed";
+          "Location Found";
 
       }
 
@@ -1130,27 +1156,97 @@ async function getUserLocation(){
 
       console.log(error);
 
-      if(error.code===1){
+      switch(error.code){
 
-        locationText.innerText =
-          "Permission Denied";
+        case error.PERMISSION_DENIED:
 
-      }else{
+          locationText.innerText =
+            "Permission Denied";
 
-        locationText.innerText =
-          "Location Error";
+          break;
+
+        case error.POSITION_UNAVAILABLE:
+
+          locationText.innerText =
+            "Unavailable";
+
+          break;
+
+        case error.TIMEOUT:
+
+          locationText.innerText =
+            "Timeout";
+
+          break;
+
+        default:
+
+          locationText.innerText =
+            "Error";
 
       }
 
     },
 
     {
-      enableHighAccuracy:true
+      enableHighAccuracy:true,
+      timeout:15000,
+      maximumAge:0
     }
 
   );
 
 }
+
+/* =========================
+   LOAD SAVED LOCATION
+========================= */
+
+function loadSavedLocation(){
+
+  const saved =
+    localStorage.getItem(
+      "userLocation"
+    );
+
+  if(saved){
+
+    document.getElementById(
+      "userLocation"
+    ).innerText = saved;
+
+  }
+
+}
+
+/* AUTO LOAD */
+
+loadSavedLocation();
+getUserLocation();
+
+
+
+/* =========================
+   LOAD SAVED LOCATION
+========================= */
+
+function loadSavedLocation(){
+
+  const saved =
+    localStorage.getItem(
+      "userLocation"
+    );
+
+  if(saved){
+
+    document.getElementById(
+      "userLocation"
+    ).innerText = saved;
+
+  }
+
+}
+
 </script>
 <script>
 
@@ -1354,7 +1450,6 @@ function goAccount(){location.href="account.html";}
 
 // INIT
 checkLogin();
-loadSavedLocation();
 load();
 
 </script>
