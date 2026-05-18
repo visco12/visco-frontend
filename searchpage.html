@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ESCO Search - Visco Compare</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+:root{
+
+  --primary:#3ecf8e;
+  --primary-dark:#27b876;
+
+  --bg:#f7fbf8;
+  --card:#ffffff;
+
+  --text:#111827;
+  --muted:#6b7280;
+
+  --border:#e5e7eb;
+
+  --shadow:rgba(0,0,0,0.06);
+
+}
+
+/* =========================
+   BODY
+========================= */
+
+body{
+  font-family:'Poppins',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  position:relative;
+  min-height:100vh;
+}
+
+/* GLOW EFFECTS */
+
+body::before{
+  content:"";
+  position:fixed;
+  top:-200px;
+  right:-200px;
+  width:450px;
+  height:450px;
+  background:rgba(62,207,142,0.10);
+  filter:blur(120px);
+  border-radius:50%;
+  z-index:0;
+}
+
+body::after{
+  content:"";
+  position:fixed;
+  bottom:-200px;
+  left:-200px;
+  width:350px;
+  height:350px;
+  background:rgba(62,207,142,0.08);
+  filter:blur(120px);
+  border-radius:50%;
+  z-index:0;
+}
+
+/* =========================
+   APP
+========================= */
+
+.app{
+  position:relative;
+  z-index:2;
+  max-width:1200px;
+  margin:auto;
+  padding:20px;
+}
+
+/* =========================
+   TOP BAR
+========================= */
+
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding:18px 20px;
+
+  background:rgba(255,255,255,0.75);
+
+  border:1px solid rgba(255,255,255,0.8);
+
+  backdrop-filter:blur(14px);
+
+  border-radius:24px;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.04);
+
+  margin-bottom:24px;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.logo img{
+  width:52px;
+  height:52px;
+  border-radius:16px;
+  object-fit:cover;
+
+  box-shadow:
+    0 6px 18px rgba(62,207,142,0.25);
+}
+
+.logo-text h1{
+  font-size:22px;
+  font-weight:700;
+  color:var(--primary);
+}
+
+.logo-text p{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:2px;
+}
+
+.search-count{
+  background:#ecfdf5;
+  color:#15803d;
+
+  padding:10px 16px;
+
+  border-radius:14px;
+
+  font-size:13px;
+  font-weight:600;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(62,207,142,0.12),
+      rgba(62,207,142,0.04)
+    );
+
+  border:1px solid rgba(62,207,142,0.15);
+
+  border-radius:30px;
+
+  padding:35px 25px;
+
+  margin-bottom:28px;
+
+  position:relative;
+  overflow:hidden;
+}
+
+.hero::before{
+  content:"";
+  position:absolute;
+  right:-100px;
+  top:-100px;
+
+  width:260px;
+  height:260px;
+
+  background:rgba(62,207,142,0.12);
+
+  filter:blur(70px);
+
+  border-radius:50%;
+}
+
+.hero h2{
+  font-size:38px;
+  line-height:1.2;
+  margin-bottom:14px;
+}
+
+.hero h2 span{
+  color:var(--primary);
+}
+
+.hero p{
+  color:var(--muted);
+  font-size:15px;
+  line-height:1.8;
+  max-width:700px;
+}
+
+/* =========================
+   SEARCH
+========================= */
+
+.search-box{
+  margin-top:28px;
+
+  display:flex;
+  gap:14px;
+}
+
+.search-box input{
+
+  flex:1;
+
+  height:60px;
+
+  border:none;
+
+  background:white;
+
+  border-radius:18px;
+
+  padding:0 22px;
+
+  font-size:16px;
+
+  outline:none;
+
+  border:1px solid var(--border);
+
+  box-shadow:
+    0 6px 18px rgba(0,0,0,0.04);
+}
+
+.search-box input:focus{
+  border-color:rgba(62,207,142,0.5);
+
+  box-shadow:
+    0 0 0 4px rgba(62,207,142,0.10);
+}
+
+.search-btn{
+
+  min-width:130px;
+
+  border:none;
+
+  background:var(--primary);
+
+  color:white;
+
+  border-radius:18px;
+
+  font-size:15px;
+  font-weight:600;
+
+  cursor:pointer;
+
+  transition:0.25s;
+
+  box-shadow:
+    0 10px 25px rgba(62,207,142,0.25);
+}
+
+.search-btn:hover{
+  background:var(--primary-dark);
+  transform:translateY(-2px);
+}
+
+.search-btn:disabled{
+  opacity:0.7;
+}
+
+/* =========================
+   STATUS
+========================= */
+
+.status{
+
+  margin:20px 4px;
+
+  color:var(--muted);
+
+  font-size:14px;
+  font-weight:500;
+}
+
+/* =========================
+   RESULTS
+========================= */
+
+.results{
+  display:grid;
+  gap:20px;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.card{
+
+  background:rgba(255,255,255,0.88);
+
+  backdrop-filter:blur(14px);
+
+  border:1px solid rgba(255,255,255,0.8);
+
+  border-radius:28px;
+
+  padding:20px;
+
+  display:flex;
+  gap:18px;
+
+  transition:0.25s;
+
+  box-shadow:
+    0 12px 35px rgba(0,0,0,0.05);
+}
+
+.card:hover{
+  transform:translateY(-3px);
+
+  box-shadow:
+    0 18px 40px rgba(62,207,142,0.10);
+}
+
+/* =========================
+   IMAGE
+========================= */
+
+.product-img{
+
+  width:120px;
+  height:120px;
+
+  background:#f9fafb;
+
+  border-radius:22px;
+
+  overflow:hidden;
+
+  flex-shrink:0;
+
+  border:1px solid var(--border);
+}
+
+.product-img img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  padding:10px;
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.card-body{
+  flex:1;
+}
+
+.product-title{
+  font-size:17px;
+  font-weight:600;
+  line-height:1.6;
+  margin-bottom:12px;
+}
+
+/* =========================
+   PRICE
+========================= */
+
+.price-row{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.best-price{
+  font-size:28px;
+  font-weight:700;
+  color:var(--primary);
+}
+
+.badge{
+
+  padding:7px 12px;
+
+  border-radius:999px;
+
+  font-size:11px;
+  font-weight:700;
+}
+
+.very_high{
+  background:#dcfce7;
+  color:#15803d;
+}
+
+.high{
+  background:#dbeafe;
+  color:#1d4ed8;
+}
+
+.medium{
+  background:#fef3c7;
+  color:#b45309;
+}
+
+/* =========================
+   META
+========================= */
+
+.meta{
+  margin-top:12px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.8;
+}
+
+/* =========================
+   PLATFORM
+========================= */
+
+.platforms{
+  margin-top:16px;
+
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.platform{
+
+  text-decoration:none;
+
+  background:#f0fdf4;
+
+  border:1px solid #bbf7d0;
+
+  color:#166534;
+
+  padding:10px 14px;
+
+  border-radius:14px;
+
+  font-size:13px;
+  font-weight:600;
+
+  transition:0.25s;
+}
+
+.platform:hover{
+  background:var(--primary);
+  color:white;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:700px){
+
+  .app{
+    padding:14px;
+  }
+
+  .topbar{
+    flex-direction:column;
+    gap:14px;
+    align-items:flex-start;
+  }
+
+  .hero{
+    padding:26px 18px;
+    border-radius:24px;
+  }
+
+  .hero h2{
+    font-size:28px;
+  }
+
+  .search-box{
+    flex-direction:column;
+  }
+
+  .search-btn{
+    height:56px;
+    width:100%;
+  }
+
+  .card{
+    flex-direction:column;
+    padding:16px;
+    border-radius:24px;
+  }
+
+  .product-img{
+    width:100%;
+    height:220px;
+  }
+
+  .product-title{
+    font-size:16px;
+  }
+
+  .best-price{
+    font-size:24px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- TOPBAR -->
+
+  <div class="topbar">
+
+    <div class="logo">
+
+      <img src="logo.png" alt="Logo">
+
+      <div class="logo-text">
+        <h1>ESCO Engine</h1>
+        <p>Smart Price Comparison</p>
+      </div>
+
+    </div>
+
+    <div class="search-count">
+      ⚡ Live Search Engine
+    </div>
+
+  </div>
+
+  <!-- HERO -->
+
+  <div class="hero">
+
+    <h2>
+      Search Products <span>Across Platforms</span>
+    </h2>
+
+    <p>
+      Compare prices instantly from Amazon, Flipkart,
+      Myntra, Ajio and more with your modern AI powered
+      ESCO price engine.
+    </p>
+
+    <div class="search-box">
+
+      <input
+        id="q"
+        type="text"
+        placeholder="Search iPhone 15, Nike Shoes, Samsung TV..."
+      />
+
+      <button
+        id="btn"
+        class="search-btn"
+        onclick="search()"
+      >
+        Search
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- STATUS -->
+
+  <div id="status" class="status"></div>
+
+  <!-- RESULTS -->
+
+  <div id="results" class="results"></div>
+
+</div>
+
+<script>
+
+const qInput =
+document.getElementById("q");
+
+const btn =
+document.getElementById("btn");
+
+const statusEl =
+document.getElementById("status");
+
+const resultsEl =
+document.getElementById("results");
+
+qInput.addEventListener(
+  "keydown",
+  (e)=>{
+    if(e.key === "Enter"){
+      search();
+    }
+  }
+);
+
+async function search(){
+
+  const query =
+  qInput.value.trim();
+
+  if(!query) return;
+
+  btn.disabled = true;
+  btn.innerText = "Searching...";
+
+  statusEl.innerHTML =
+  "🔍 Searching across platforms...";
+
+  resultsEl.innerHTML = "";
+
+  try{
+
+    const res = await fetch(
+      "/search",
+      {
+        method:"POST",
+
+        headers:{
+          "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+          query
+        })
+      }
+    );
+
+    const data = await res.json();
+
+    if(!data.success){
+
+      statusEl.innerHTML =
+      "❌ " + data.error;
+
+      return;
+    }
+
+    render(data.results);
+
+    statusEl.innerHTML =
+      `✅ Found ${data.results.length} products for "${data.query}"`;
+
+  }catch(err){
+
+    statusEl.innerHTML =
+    "⚠️ Server error";
+
+  }
+
+  btn.disabled = false;
+  btn.innerText = "Search";
+
+}
+
+function render(results){
+
+  if(!results || !results.length){
+
+    resultsEl.innerHTML = `
+
+      <div class="card">
+
+        <div class="card-body">
+
+          <div class="product-title">
+            No products found
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+    return;
+  }
+
+  resultsEl.innerHTML =
+  results.map(p=>{
+
+    const name =
+      p.canonical_name ||
+      p.name ||
+      "Unknown Product";
+
+    const img =
+      p.image ||
+      "https://via.placeholder.com/300";
+
+    const best =
+      p.best_price
+      ? `₹${p.best_price.toLocaleString("en-IN")}`
+      : "—";
+
+    const conf =
+      p.confidence || "medium";
+
+    const score =
+      p.match_score || "0";
+
+    const platforms =
+      Object.entries(
+        p.prices || {}
+      )
+      .map(([pl,pr])=>{
+
+        const link =
+          p.links?.[pl] || "#";
+
+        return `
+
+          <a
+            href="${link}"
+            target="_blank"
+            class="platform"
+          >
+            🛒 ${pl}
+            •
+            ₹${pr.toLocaleString("en-IN")}
+          </a>
+
+        `;
+
+      }).join("");
+
+    return `
+
+      <div class="card">
+
+        <div class="product-img">
+
+          <img
+            src="${img}"
+            alt="${name}"
+            onerror="
+              this.src='https://via.placeholder.com/300'
+            "
+          >
+
+        </div>
+
+        <div class="card-body">
+
+          <div class="product-title">
+            ${name}
+          </div>
+
+          <div class="price-row">
+
+            <div class="best-price">
+              ${best}
+            </div>
+
+            <div class="badge ${conf}">
+              ${conf.toUpperCase()}
+              •
+              ${score}
+            </div>
+
+          </div>
+
+          <div class="meta">
+
+            📦 ${p.category || "General"}
+
+            <br>
+
+            🛍️ Platforms:
+            ${p.platform_count || 0}
+
+          </div>
+
+          <div class="platforms">
+            ${platforms}
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+  }).join("");
+
+}
+
+</script>
+
+</body>
+</html>
